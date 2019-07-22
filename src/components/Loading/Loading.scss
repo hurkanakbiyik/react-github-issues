@@ -1,0 +1,87 @@
+@import "../../theme/colors";
+
+/**
+Animations
+ */
+
+@mixin animation($b__animate) {
+  $b__max: length($b__animate);
+  $b__animations: '';
+
+  @for $i from 1 through $b__max {
+    $b__animations: #{$b__animations + nth($b__animate, $i)};
+
+    @if $i < $b__max {
+      $b__animations: #{$b__animations + ", "};
+    }
+  }
+  -webkit-animation: $b__animations;
+  -moz-animation:    $b__animations;
+  -o-animation:      $b__animations;
+  animation:         $b__animations;
+}
+
+
+@mixin keyframes($b__animation-name) {
+  @-webkit-keyframes #{$b__animation-name} {
+    @content;
+  }
+  @-moz-keyframes #{$b__animation-name} {
+    @content;
+  }
+  @-o-keyframes #{$b__animation-name} {
+    @content;
+  }
+  @keyframes #{$b__animation-name} {
+    @content;
+  }
+}
+@keyframes loading-animation {
+  0% {
+    background: $color_snow_dark;
+  }
+  10% {
+    background: $color_snow_normal;
+  }
+  40% {
+    background: $color_snow_light;
+  }
+}
+
+.animate{
+  display: inline-block;
+  @include animation('loading-animation 1200ms 300ms infinite ease-out');
+  position: relative;
+  text-indent: -9999px;
+  width: 1em;
+  height: 1em;
+  margin: 0 1em;
+  &:before, &:after {
+    background: $color_polar_night;
+    content: '\x200B';
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    position: absolute;
+    top: 0;
+  }
+  &:before {
+    @include animation('loading-animation 1200ms 150ms infinite ease-out');
+    left: -1.6em;
+  }
+  &:after {
+    @include animation('loading-animation 1200ms 450ms infinite ease-out');
+    right: -1.6em;
+  }
+}
+
+.loading-container{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

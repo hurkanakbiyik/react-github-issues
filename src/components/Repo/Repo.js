@@ -4,6 +4,7 @@ import useGlobal from '../../store';
 
 import './Repo.scss';
 import { GITHUB_ACTION_STATUS } from '../../actions/github';
+import Loading from '../Loading';
 
 const Repo = () => {
   const [globalState, globalActions] = useGlobal();
@@ -15,7 +16,7 @@ const Repo = () => {
   const { status, repo } = globalState;
   return (
     <>
-      {status === 'LOADING' && <h4>Loading...</h4>}
+      {status === 'LOADING' && <Loading />}
       {status === GITHUB_ACTION_STATUS.SUCCESS && <span>{repo.name}</span>}
     </>
   );
