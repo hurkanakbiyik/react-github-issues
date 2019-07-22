@@ -10,6 +10,7 @@ const initialState = {
     field: 'CREATED_AT',
     direction: 'DESC',
     states: 'OPEN',
+    previousAfter: '',
   },
 };
 

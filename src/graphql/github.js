@@ -25,7 +25,7 @@ export const client = new ApolloClient({
 
 
 const QUERY = gql`
-    query repoWithIssues($owner: String!, $name: String!, $field: IssueOrderField!, $direction: OrderDirection!, $after: String, $states: [IssueState!]) {
+    query repoWithIssues($owner: String!, $name: String!, $field: IssueOrderField!, $direction: OrderDirection!, $after: String, $before: String, $states: [IssueState!]) {
         repository(owner: $owner, name: $name) {
             name
             description
@@ -36,7 +36,7 @@ const QUERY = gql`
                 avatarUrl
                 url
             }
-            issues(first: 10, filterBy: {states: $states}, orderBy: {field: $field, direction: $direction}, after: $after) {
+            issues(first: 10, filterBy: {states: $states}, orderBy: {field: $field, direction: $direction}, after: $after, before: $before) {
                 nodes {
                     url
                     title
@@ -54,6 +54,8 @@ const QUERY = gql`
                 pageInfo {
                     endCursor
                     startCursor
+                    hasPreviousPage
+                    hasNextPage
                 }
             }
         }
@@ -70,7 +72,7 @@ const QUERY = gql`
  * @returns {Promise<ApolloQueryResult<any> | never>}
  */
 export const fetchRepositoryWithIssues = ({
-  owner, name, field, direction, after, states,
+  owner, name, field, direction, after, states, before,
 }) => client
   .query({
     variables: {
@@ -80,6 +82,7 @@ export const fetchRepositoryWithIssues = ({
       direction,
       after,
       states,
+      before,
     },
     query: QUERY,
   })

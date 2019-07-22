@@ -1,8 +1,15 @@
 @import "../../theme/colors";
 
 .pagination{
-  background-color: #f6f8fa;
-  border: 1px solid #d1d5da;
-  margin: -1px -1px 0;
   padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pagination-button{
+  background-color: $color_snow_normal;
+  color: $color_text_dark;
+  padding: 16px;
+  text-transform: uppercase;
+  margin-right: 8px;
 }
