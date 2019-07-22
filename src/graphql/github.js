@@ -1,30 +1,31 @@
-import { ApolloClient } from "apollo-client";
-import { createHttpLink } from "apollo-link-http";
-import { InMemoryCache } from "apollo-cache-inmemory";
-import fetch from "isomorphic-fetch";
-import gql from "graphql-tag";
+import { ApolloClient } from 'apollo-client';
+import { createHttpLink } from 'apollo-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import fetch from 'isomorphic-fetch';
+import gql from 'graphql-tag';
 
 // overwrite accept */* header as graphiql will return html if application/json is not specified
 // specifying headers for createHttpLink will just add, not overwrite
 const overwriteHeadersFetch = (uri, options) => {
-    options.headers = {
-        Accept: "application/json",
-        Authorization: "Token a15011436fbfdb0f3128f5038ebe9a17bbb91580"
-    };
-    return fetch(uri, options);
+  const newOptions = options;
+  newOptions.headers = {
+    Accept: 'application/json',
+    Authorization: 'Token a15011436fbfdb0f3128f5038ebe9a17bbb91580',
+  };
+  return fetch(uri, newOptions);
 };
 
 export const client = new ApolloClient({
-    link: createHttpLink({
-        fetch: overwriteHeadersFetch,
-        uri: "https://api.github.com/graphql"
-    }),
-    cache: new InMemoryCache()
+  link: createHttpLink({
+    fetch: overwriteHeadersFetch,
+    uri: 'https://api.github.com/graphql',
+  }),
+  cache: new InMemoryCache(),
 });
 
 
 const QUERY = gql`
-    query repoWithIssues(
+    query fetchRepositoryWithIssues(
         $owner:String!
         $name:String!
         $field: IssueOrderField!
@@ -59,16 +60,17 @@ const QUERY = gql`
  * @param after
  * @returns {Promise<ApolloQueryResult<any> | never>}
  */
-export const fetchRepositoryIssues = ({owner, name, field, direction, after}) =>
-    client
-        .query({
-            variables: {
-                owner,
-                name,
-                field,
-                direction,
-                after
-            },
-            query: QUERY
-        })
-        .then(res => res.data);
+export const fetchRepositoryWithIssues = ({
+  owner, name, field, direction, after,
+}) => client
+  .query({
+    variables: {
+      owner,
+      name,
+      field,
+      direction,
+      after,
+    },
+    query: QUERY,
+  })
+  .then(res => res.data);
