@@ -9,6 +9,7 @@ const initialState = {
   filter: {
     field: 'CREATED_AT',
     direction: 'DESC',
+    states: 'OPEN',
   },
 };
 

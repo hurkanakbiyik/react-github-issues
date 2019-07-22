@@ -28,6 +28,17 @@ const directionFields = [
   },
 ];
 
+const stateFields = [
+  {
+    label: 'Open',
+    value: 'OPEN',
+  },
+  {
+    label: 'Closed',
+    value: 'CLOSED',
+  },
+];
+
 const FilterGroup = ({ options, filter, selectedValue }) => (
   <div className="filter-group">
     {options.map(option => (
@@ -50,12 +61,17 @@ FilterGroup.defaultProps = {
 };
 
 FilterGroup.propTypes = {
-  options: PropTypes.array,
+  options: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string,
+    value: PropTypes.string,
+  })),
   filter: PropTypes.func,
   selectedValue: PropTypes.string,
 };
 
-const FilterIssue = ({ totalCount, field, direction }) => {
+const FilterIssue = ({
+  totalCount, field, direction, states,
+}) => {
   const [globalState, globalActions] = useGlobal();
 
   return (
@@ -64,6 +80,13 @@ const FilterIssue = ({ totalCount, field, direction }) => {
         {`${totalCount} issues`}
       </div>
       <div className="filters">
+        <FilterGroup
+          selectedValue={states}
+          options={stateFields}
+          filter={val => globalActions.github.loadRepoWithIssues(
+            { ...globalState.filter, states: val },
+          )}
+        />
         <FilterGroup
           selectedValue={field}
           options={orderFields}
@@ -87,12 +110,14 @@ FilterIssue.defaultProps = {
   totalCount: 0,
   field: '',
   direction: '',
+  states: '',
 };
 
 FilterIssue.propTypes = {
   totalCount: PropTypes.number,
   direction: PropTypes.string,
   field: PropTypes.string,
+  states: PropTypes.string,
 };
 
 export default FilterIssue;

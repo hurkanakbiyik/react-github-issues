@@ -7,7 +7,7 @@ export const GITHUB_ACTION_STATUS = {
 };
 
 
-export const loadRepoWithIssues = async (store, { field = 'CREATED_AT', direction = 'DESC' }) => {
+export const loadRepoWithIssues = async (store, { field = 'CREATED_AT', direction = 'DESC', states = 'OPEN' }) => {
   store.setState({ status: GITHUB_ACTION_STATUS.LOADING });
   try {
     const response = await fetchRepositoryWithIssues({
@@ -15,6 +15,7 @@ export const loadRepoWithIssues = async (store, { field = 'CREATED_AT', directio
       name: 'tfjs',
       field,
       direction,
+      states,
     });
     const repo = response.repository;
     store.setState({
@@ -23,6 +24,7 @@ export const loadRepoWithIssues = async (store, { field = 'CREATED_AT', directio
       filter: {
         field,
         direction,
+        states,
       },
     });
   } catch (error) {

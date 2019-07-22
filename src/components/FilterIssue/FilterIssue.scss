@@ -5,11 +5,28 @@ $filter_border_dark: 1px solid $color_text_dark;
 .filter-issue{
   background-color: $color_snow_light;
   border: 1px solid $color_snow_normal;
-  margin: -1px -1px 0;
   padding: 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    .total{
+      margin-bottom: 8px;
+    }
+  }
+
+  @media screen and (max-width: 425px) {
+    .filters{
+      flex-direction: column;
+      .filter-group{
+        margin-right: 0;
+        margin-bottom: 8px;
+      }
+    }
+  }
+
   .total{
     color: $color_text_dark
   }

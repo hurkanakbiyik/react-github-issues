@@ -8,8 +8,9 @@ import { GITHUB_ACTION_STATUS } from '../../actions/github';
 import Loading from '../Loading';
 import FilterIssue from '../FilterIssue';
 import Pagination from '../Pagination';
+import Issues from '../Issues';
 
-const RepoArea = ({ repo, filter: { field, direction } }) => (
+const RepoArea = ({ repo, filter: { field, direction, states } }) => (
   <div className="repo-area">
     <div className="repo-header">
       <a href={repo.owner.url} rel="noreferrer noopener" target="_blank"><h2>{repo.owner.login}</h2></a>
@@ -19,10 +20,12 @@ const RepoArea = ({ repo, filter: { field, direction } }) => (
     <p>{repo.description}</p>
     <FilterIssue
       field={field}
+      states={states}
       direction={direction}
       totalCount={repo.issues.totalCount}
       pageInfo={repo.issues.pageInfo}
     />
+    <Issues issues={repo.issues.nodes} />
     <Pagination pageInfo={repo.issues.pageInfo} />
   </div>
 );
