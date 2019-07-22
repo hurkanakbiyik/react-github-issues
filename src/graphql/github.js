@@ -25,19 +25,18 @@ export const client = new ApolloClient({
 
 
 const QUERY = gql`
-    query fetchRepositoryWithIssues(
-        $owner:String!
-        $name:String!
-        $field: IssueOrderField!
-        $direction: OrderDirection!
-        $after: String
-    ) {
+    query repoWithIssues($owner: String!, $name: String!, $field: IssueOrderField!, $direction: OrderDirection!, $after: String) {
         repository(owner: $owner, name: $name) {
-            issues(
-                first: 10
-                orderBy: { field: $field, direction: $direction }
-                after: $after
-            ) {
+            name
+            description
+            homepageUrl
+            projectsUrl
+            owner {
+                login
+                avatarUrl
+                url
+            }
+            issues(first: 10, orderBy: {field: $field, direction: $direction}, after: $after) {
                 nodes {
                     url
                 }
