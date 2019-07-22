@@ -1,0 +1,22 @@
+@import "../../theme/colors";
+
+.repo{
+  padding: 16px;
+}
+
+.repo-area{
+  p{
+    color: $color_snow_normal
+  }
+}
+
+.repo-header{
+  display: flex;
+  a{
+    color: $color_snow_light
+  }
+  h2{
+    margin-right: 8px;
+    color: $color_snow_light
+  }
+}

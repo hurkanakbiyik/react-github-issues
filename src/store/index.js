@@ -6,6 +6,10 @@ import actions from '../actions';
 const initialState = {
   status: 'INITIAL',
   repo: null,
+  filter: {
+    field: 'CREATED_AT',
+    direction: 'DESC',
+  },
 };
 
 const useGlobal = useGlobalHook(React, initialState, actions);
