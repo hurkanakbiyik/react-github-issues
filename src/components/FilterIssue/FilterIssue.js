@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './FilterIssue.scss';
+import useGlobal from '../../store';
 
 const orderFields = [
   {
@@ -49,30 +50,38 @@ FilterGroup.defaultProps = {
 };
 
 FilterGroup.propTypes = {
-  options: PropTypes.arrayOf({ label: PropTypes.string, value: PropTypes.string }),
+  options: PropTypes.array,
   filter: PropTypes.func,
   selectedValue: PropTypes.string,
 };
 
-const FilterIssue = ({ totalCount, field, direction }) => (
-  <div className="filter-issue">
-    <div className="total">
-      {`${totalCount} issues`}
+const FilterIssue = ({ totalCount, field, direction }) => {
+  const [globalState, globalActions] = useGlobal();
+
+  return (
+    <div className="filter-issue">
+      <div className="total">
+        {`${totalCount} issues`}
+      </div>
+      <div className="filters">
+        <FilterGroup
+          selectedValue={field}
+          options={orderFields}
+          filter={val => globalActions.github.loadRepoWithIssues(
+            { ...globalState.filter, field: val },
+          )}
+        />
+        <FilterGroup
+          selectedValue={direction}
+          options={directionFields}
+          filter={val => globalActions.github.loadRepoWithIssues(
+            { ...globalState.filter, direction: val },
+          )}
+        />
+      </div>
     </div>
-    <div className="filters">
-      <FilterGroup
-        selectedValue={field}
-        options={orderFields}
-        filter={val => console.log(val)}
-      />
-      <FilterGroup
-        selectedValue={direction}
-        options={directionFields}
-        filter={val => console.log(val)}
-      />
-    </div>
-  </div>
-);
+  );
+};
 
 FilterIssue.defaultProps = {
   totalCount: 0,

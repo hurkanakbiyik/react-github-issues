@@ -7,7 +7,7 @@ export const GITHUB_ACTION_STATUS = {
 };
 
 
-export const loadRepoWithIssues = async (store, field = 'CREATED_AT', direction = 'DESC') => {
+export const loadRepoWithIssues = async (store, { field = 'CREATED_AT', direction = 'DESC' }) => {
   store.setState({ status: GITHUB_ACTION_STATUS.LOADING });
   try {
     const response = await fetchRepositoryWithIssues({
@@ -17,7 +17,14 @@ export const loadRepoWithIssues = async (store, field = 'CREATED_AT', direction 
       direction,
     });
     const repo = response.repository;
-    store.setState({ repo, status: GITHUB_ACTION_STATUS.SUCCESS });
+    store.setState({
+      repo,
+      status: GITHUB_ACTION_STATUS.SUCCESS,
+      filter: {
+        field,
+        direction,
+      },
+    });
   } catch (error) {
     store.setState({ status: GITHUB_ACTION_STATUS.FAIL });
   }

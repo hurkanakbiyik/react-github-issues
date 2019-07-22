@@ -36,23 +36,23 @@ RepoArea.defaultProps = {
 };
 
 RepoArea.propTypes = {
-  repo: {
-    owner: {
+  repo: PropTypes.shape({
+    owner: PropTypes.shape({
       url: PropTypes.string,
-    },
+    }),
     description: PropTypes.string,
-  },
-  filter: {
+  }),
+  filter: PropTypes.shape({
     field: PropTypes.string,
     direction: PropTypes.string,
-  },
+  }),
 };
 
 const Repo = () => {
   const [globalState, globalActions] = useGlobal();
 
   useEffect(() => {
-    globalActions.github.loadRepoWithIssues();
+    globalActions.github.loadRepoWithIssues({});
   }, [globalActions.github]);
 
   const { status, repo, filter } = globalState;

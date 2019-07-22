@@ -19,10 +19,10 @@ Pagination.defaultProps = {
 };
 
 Pagination.propTypes = {
-  pageInfo: {
+  pageInfo: PropTypes.shape({
     endCursor: PropTypes.string,
     startCursor: PropTypes.string,
-  },
+  }),
 };
 
 export default Pagination;
